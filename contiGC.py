@@ -4,7 +4,9 @@ from pathlib import Path
 import argparse
 import plotly
 import plotly.graph_objects as go
+import plotly.express as px
 import numpy as np
+import pandas as pd
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', help='path to a fasta file containing contigs or scaffolds')
@@ -51,5 +53,9 @@ lowest = frequencies[0]
 highest = frequencies[-1]
 spread = highest - lowest
 
+gcdf = pd.DataFrame(list(gccontent.items()))
+print(gcdf)
 
-fig = go.Figure(data=go.Histogram(frequencies))
+tips = px.data.tips()
+fig = px.histogram(gcdf, x=1, nbins=100)
+plotly.offline.plot(fig, filename='testplot.html')
